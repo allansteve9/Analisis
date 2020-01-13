@@ -1,0 +1,86 @@
+------ VIEWSTATE
+
+ViewState nos permite preservar los datos entre requests
+El ViewState viaja con la peticion y la respuesta, de esa menera se conserva el dato
+Tenemos que colocar el nombre de la variable para el ViewState
+Si no se ha usado previamente tiene el valor null
+Cuando lo leamos es importante hacer el typecast correspondiente
+
+https://platzi.com/tutoriales/1557-git-github/1670-mini-guia-resumen-de-comandos-git-y-configuracion-global-y-local/
+
+
+------- EVENTOS
+Los eventos pueden ocurrir en tres niveles:
+	- Nivel de Aplicacion
+	- Nivel de Pagina
+	- Nivel de Control
+
+Los controles ASP tienen sus propios eventos
+	- PostBack: Envian el webform al servidor para ser procesado
+	- Cached: Se guardan y se procesan cuando sucede un postback
+	- Eventos de validacion: Son usados con los controles de validacion
+
+
+ASP .NET MVC 
+CONTROLADRES
+MODELOS 
+VISTAS
+
+El codigo razor se encierra entre @{}
+Se puede utilizar en el html anticipando el simbolo @
+
+
+
+ if(textBox1.Text == "" || txt_cantidad.Text == "0")
+            {
+                MessageBox.Show("Faltan campos por llenar");
+            }
+            else
+            {
+                if(iContadorFila == 0)
+                {
+                    
+                    dgv_factura.Rows.Add(textBox1.Text, txt_nombreproducto.Text, txt_precio.Text, txt_cantidad.Text);
+
+                    dgv_factura.Rows[iContadorFila].Cells[4].Value = Convert.ToDouble(dgv_factura.Rows[iContadorFila].Cells[2].Value)  * Convert.ToDouble( dgv_factura.Rows[iContadorFila].Cells[3].Value);
+
+                    iContadorFila++;
+                }
+
+                else
+                {
+                     int posicionFila = 0;
+                     foreach(DataGridViewRow fila in dgv_factura.Rows)
+                     {
+                        if(fila.Cells[0].Value.ToString() == textBox1.Text)
+                        {
+                            existe = true;
+                            posicionFila = fila.Index;
+                        }
+                     }
+
+                     if(existe == true)
+                    {
+                        dgv_factura.Rows[posicionFila].Cells[3].Value = Convert.ToDouble(dgv_factura.Rows[posicionFila].Cells[3].Value) + Convert.ToDouble(txt_cantidad.Text);
+                        dgv_factura.Rows[posicionFila].Cells[4].Value = Convert.ToDouble(dgv_factura.Rows[posicionFila].Cells[2].Value) * Convert.ToDouble(dgv_factura.Rows[posicionFila].Cells[3].Value);
+                    }
+                     else
+                    {
+
+                        dgv_factura.Rows.Add(textBox1.Text, txt_nombreproducto.Text, txt_precio.Text, txt_cantidad.Text);
+                        dgv_factura.Rows[iContadorFila].Cells[4].Value = Convert.ToDouble(dgv_factura.Rows[iContadorFila].Cells[2].Value) * Convert.ToDouble(dgv_factura.Rows[iContadorFila].Cells[3].Value);
+                        iContadorFila++;
+                    }
+
+                    double total = 0.0;
+                     foreach(DataGridViewRow fila in dgv_factura.Rows)
+                    {
+                        total = total + Convert.ToDouble(fila.Cells[4].Value);
+                    }
+
+                    lbl_total.Text = total.ToString();
+                }
+
+                
+            }
+        }
